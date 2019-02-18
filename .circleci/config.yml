@@ -15,11 +15,11 @@ jobs:
     executor: tester
     steps:
       - go-module/download:
-            checkout: true
-            project_name: go-mod-sample
-            persist-to-workspace: true
-            vendoring: true
-            workspace-root: /go/src/github.com/timakin/go-mod-sample
+          checkout: true
+          project_name: go-mod-sample
+          persist-to-workspace: true
+          vendoring: true
+          workspace-root: /go/src/github.com/timakin/go-mod-sample
 
 # yaml anchor filters
 integration-dev_filters: &integration-dev_filters
@@ -83,7 +83,7 @@ workflows:
           context: orb-publishing
           orb-ref: timakin/go-module
           filters: *integration-master_filters
-          requires: 
+          requires:
             - test-commands-master
 
       # patch, minor, or major publishing
