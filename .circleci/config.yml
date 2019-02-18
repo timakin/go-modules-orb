@@ -2,6 +2,40 @@ version: 2.1
 
 orbs:
   orb-tools: circleci/orb-tools@7.3.0
+  go-module: timakin/go-module@dev:alpha
+
+executors:
+  tester:
+    resource_class: small
+    docker:
+      - image: timakin/go-mod-sample
+
+jobs:
+  test-commands:
+    executor: tester
+    steps:
+      - go-module/download:
+            checkout: true
+            project_name: go-mod-sample
+            persist-to-workspace: true
+            vendoring: true
+            workspace-root: /go/src/github.com/timakin/go-mod-sample
+
+# yaml anchor filters
+integration-dev_filters: &integration-dev_filters
+  branches:
+    ignore: /.*/
+  tags:
+    only: /integration-.*/
+
+integration-master_filters: &integration-master_filters
+  branches:
+    ignore: /.*/
+  tags:
+    only: /master-.*/
+
+prod-deploy_requires: &prod-deploy_requires
+  [test-commands-master, test-increment-job-master]
 
 workflows:
   lint_pack-validate_publish-dev:
@@ -30,3 +64,60 @@ workflows:
           filters:
             branches:
               only: master
+
+  integration_tests-prod_deploy:
+    jobs:
+      - test-commands:
+          name: test-commands-dev
+          context: orb-publishing
+          filters: *integration-dev_filters
+
+      - test-commands:
+          name: test-commands-master
+          context: orb-publishing
+          filters: *integration-master_filters
+
+      - orb-tools/increment:
+          name: test-increment-job-master
+          attach-workspace: true
+          context: orb-publishing
+          orb-ref: timakin/go-module
+          filters: *integration-master_filters
+          requires: 
+            - test-commands-master
+
+      # patch, minor, or major publishing
+      - orb-tools/dev-promote-prod:
+          name: dev-promote-patch
+          context: orb-publishing
+          orb-name: timakin/go-module
+          requires: *prod-deploy_requires
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /master-patch.*/
+
+      - orb-tools/dev-promote-prod:
+          name: dev-promote-minor
+          context: orb-publishing
+          orb-name: timakin/go-module
+          release: minor
+          requires: *prod-deploy_requires
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /master-minor.*/
+
+      - orb-tools/dev-promote-prod:
+          name: dev-promote-major
+          context: orb-publishing
+          orb-name: timakin/go-module
+          release: major
+          requires: *prod-deploy_requires
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /master-major.*/
