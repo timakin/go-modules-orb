@@ -15,8 +15,9 @@ jobs:
   test-commands:
     executor: tester
     steps:
+      - checkout
       - go-module/download:
-          checkout: true
+          attach-workspace: true
           project_name: go-mod-sample
           persist-to-workspace: true
           vendoring: true
