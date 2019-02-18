@@ -69,24 +69,24 @@ workflows:
 
   integration_tests-prod_deploy:
     jobs:
-      - test-commands:
-          name: test-commands-dev
-          context: orb-publishing
-          filters: *integration-dev_filters
+      # - test-commands:
+      #     name: test-commands-dev
+      #     context: orb-publishing
+      #     filters: *integration-dev_filters
 
-      - test-commands:
-          name: test-commands-master
-          context: orb-publishing
-          filters: *integration-master_filters
+      # - test-commands:
+      #     name: test-commands-master
+      #     context: orb-publishing
+      #     filters: *integration-master_filters
 
-      - orb-tools/increment:
-          name: test-increment-job-master
-          attach-workspace: true
-          context: orb-publishing
-          orb-ref: timakin/go-module
-          filters: *integration-master_filters
-          requires:
-            - test-commands-master
+      # - orb-tools/increment:
+      #     name: test-increment-job-master
+      #     attach-workspace: true
+      #     context: orb-publishing
+      #     orb-ref: timakin/go-module
+      #     filters: *integration-master_filters
+      #     requires:
+      #       - test-commands-master
 
       # patch, minor, or major publishing
       - orb-tools/dev-promote-prod:
