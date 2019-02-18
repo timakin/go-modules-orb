@@ -1,0 +1,32 @@
+version: 2.1
+
+orbs:
+  orb-tools: circleci/orb-tools@7.3.0
+
+workflows:
+  lint_pack-validate_publish-dev:
+    jobs:
+      - orb-tools/lint
+      - orb-tools/pack:
+          requires:
+            - orb-tools/lint
+      - orb-tools/publish-dev:
+          context: orb-publishing
+          orb-name: timakin/go-module
+          requires:
+            - orb-tools/pack
+      - orb-tools/trigger-integration-workflow:
+          ssh-fingerprints: 66:9b:a5:ae:52:4d:32:5a:65:29:f1:98:55:38:28:20
+          requires:
+            - orb-tools/publish-dev
+          filters:
+            branches:
+              ignore: master
+      - orb-tools/trigger-integration-workflow:
+          ssh-fingerprints: 66:9b:a5:ae:52:4d:32:5a:65:29:f1:98:55:38:28:20
+          tag: master
+          requires:
+            - orb-tools/publish-dev
+          filters:
+            branches:
+              only: master

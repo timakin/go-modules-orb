@@ -1,2 +1,5 @@
-# go-modules-orb
-CircleCI Orbs for Go Modules. https://circleci.com/orbs/registry/orb/timakin/go-module
+# circleci-orbs
+
+[![CircleCI](https://circleci.com/gh/timakin/go-modules-orb.svg?style=svg)](https://circleci.com/gh/timakin/go-modules-orb)
+
+The yaml sources for the CircleCI orbs.
