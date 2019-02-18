@@ -16,14 +16,14 @@ workflows:
           requires:
             - orb-tools/pack
       - orb-tools/trigger-integration-workflow:
-          ssh-fingerprints: 66:9b:a5:ae:52:4d:32:5a:65:29:f1:98:55:38:28:20
+          ssh-fingerprints: 95:0b:a2:cf:bd:98:4c:ab:0c:0f:0c:5a:f4:72:d1:bd
           requires:
             - orb-tools/publish-dev
           filters:
             branches:
               ignore: master
       - orb-tools/trigger-integration-workflow:
-          ssh-fingerprints: 66:9b:a5:ae:52:4d:32:5a:65:29:f1:98:55:38:28:20
+          ssh-fingerprints: 95:0b:a2:cf:bd:98:4c:ab:0c:0f:0c:5a:f4:72:d1:bd
           tag: master
           requires:
             - orb-tools/publish-dev
