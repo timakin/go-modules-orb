@@ -6,7 +6,6 @@ orbs:
 
 executors:
   tester:
-    resource_class: small
     docker:
       - image: timakin/go-mod-sample
     working_directory: /go/src/github.com/timakin/go-mod-sample
