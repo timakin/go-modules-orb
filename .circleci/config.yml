@@ -68,7 +68,9 @@ workflows:
 
   integration-tests_prod-release:
     jobs:
-      - orb-tools/pack
+      - orb-tools/pack:
+          name: pack-dev
+          filters: *integration-dev_filters
 
       - orb-tools/test-in-builds:
           orb-location: orb.yml
@@ -80,8 +82,10 @@ workflows:
           context: orb-publishing
           filters: *integration-dev_filters
           requires:
-            - orb-tools/pack
-
+            - pack-dev
+      - orb-tools/pack:
+          name: pack-master
+          filters: *integration-dev_filters
       - orb-tools/test-in-builds:
           orb-location: orb.yml
           orb-name: go-module
@@ -92,7 +96,7 @@ workflows:
           context: orb-publishing
           filters: *integration-master_filters
           requires:
-            - orb-tools/pack
+            - pack-master
 
       - orb-tools/increment:
           name: test-increment-job-master
