@@ -1,0 +1,35 @@
+version: "2.1"
+
+executors:
+    golang:
+      docker:
+        - image: circleci/golang:1.11.1-stretch
+
+orbs:
+  go-module: timakin/go-module@volatile
+
+jobs:
+  setup:
+    steps:
+      - run:
+          name: Create Gemfile and Gemfile.lock
+          command: |
+            mv test/go.mod /go/src/github.com/timakin/go-mod-sample/go.mod
+            mv test/go.sum /go/src/github.com/timakin/go-mod-sample/go.sum
+            mv test/main.go /go/src/github.com/timakin/go-mod-sample/main.go
+      - persist_to_workspace:
+          root: /go/src/github.com/timakin/go-mod-sample
+          paths:
+          - .
+
+workflows:
+    build:
+      jobs:
+        - setup
+        - go-module/download:
+            executor: golang
+            project_name: go-mod-sample
+            attach-workspace: true
+            persist-to-workspace: true
+            vendoring: true
+            workspace-root: /go/src/github.com/timakin/go-mod-sample

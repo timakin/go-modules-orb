@@ -66,17 +66,33 @@ workflows:
             branches:
               only: master
 
-  integration_tests-prod_deploy:
+  integration-tests_prod-release:
     jobs:
-      - test-commands:
+      - orb-tools/pack
+
+      - orb-tools/test-in-builds:
+          orb-location: orb.yml
+          orb-name: go-module
+          test-steps:
+            - orb-tools/local-test-build:
+                test-config-location: test/test.yml
           name: test-commands-dev
           context: orb-publishing
           filters: *integration-dev_filters
+          requires:
+            - orb-tools/pack
 
-      - test-commands:
+      - orb-tools/test-in-builds:
+          orb-location: orb.yml
+          orb-name: go-module
+          test-steps:
+            - orb-tools/local-test-build:
+                test-config-location: test/test.yml
           name: test-commands-master
           context: orb-publishing
           filters: *integration-master_filters
+          requires:
+            - orb-tools/pack
 
       - orb-tools/increment:
           name: test-increment-job-master
