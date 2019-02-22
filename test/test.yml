@@ -19,6 +19,7 @@ jobs:
             mv test/go.sum go.sum
             mv test/main.go main.go
       - go-module/download:
+          checkout: false
           attach-workspace: true
           persist-to-workspace: true
           vendoring: true
