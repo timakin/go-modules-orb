@@ -30,7 +30,6 @@ workflows:
         - setup
         - go-module/download:
             executor: golang
-            project_name: go-mod-sample
             attach-workspace: true
             persist-to-workspace: true
             vendoring: true
