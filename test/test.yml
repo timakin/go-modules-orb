@@ -1,16 +1,9 @@
 version: "2.1"
 
-executors:
-  golang:
+jobs:
+  build:
     docker:
       - image: circleci/golang:1.11.1-stretch
-
-orbs:
-  go-module: timakin/go-module@dev:alpha
-
-jobs:
-  setup:
-    executor: golang
     steps:
       - run:
           name: Create Sample Go Project
@@ -18,17 +11,7 @@ jobs:
             mv test/go.mod /go/src/github.com/timakin/go-mod-sample/go.mod
             mv test/go.sum /go/src/github.com/timakin/go-mod-sample/go.sum
             mv test/main.go /go/src/github.com/timakin/go-mod-sample/main.go
-      - persist_to_workspace:
-          root: /go/src/github.com/timakin/go-mod-sample
-          paths:
-          - .
-
-workflows:
-  test-go-module-download:
-    jobs:
-      - setup
       - go-module/download:
-          executor: golang
           attach-workspace: true
           persist-to-workspace: true
           vendoring: true
