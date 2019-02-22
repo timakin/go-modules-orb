@@ -2,7 +2,6 @@ version: "2.1"
 
 executors:
   default:
-    working_directory: /go/src/github.com/timakin/go-mod-sample
     docker:
       - image: circleci/golang:1.11
     environment:
@@ -11,17 +10,16 @@ executors:
 jobs:
   build:
     executor: default
-    working_directory: /go/src/github.com/timakin/go-mod-sample
     steps:
       - checkout
       - run:
           name: Create Sample Go Project
           command: |
-            mv test/go.mod /go/src/github.com/timakin/go-mod-sample/go.mod
-            mv test/go.sum /go/src/github.com/timakin/go-mod-sample/go.sum
-            mv test/main.go /go/src/github.com/timakin/go-mod-sample/main.go
+            mv test/go.mod ./go.mod
+            mv test/go.sum ./go.sum
+            mv test/main.go ./main.go
       - go-module/download:
           attach-workspace: true
           persist-to-workspace: true
           vendoring: true
-          workspace-root: /go/src/github.com/timakin/go-mod-sample
+          workspace-root: .
