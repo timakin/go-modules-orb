@@ -6,7 +6,7 @@ executors:
         - image: circleci/golang:1.11.1-stretch
 
 orbs:
-  go-module: timakin/go-module@volatile
+  go-module: timakin/go-module@dev:alpha
 
 jobs:
   setup:
@@ -25,12 +25,12 @@ jobs:
           - .
 
 workflows:
-    build:
-      jobs:
-        - setup
-        - go-module/download:
-            executor: golang
-            attach-workspace: true
-            persist-to-workspace: true
-            vendoring: true
-            workspace-root: /go/src/github.com/timakin/go-mod-sample
+  build:
+    jobs:
+      - setup
+      - go-module/download:
+          executor: golang
+          attach-workspace: true
+          persist-to-workspace: true
+          vendoring: true
+          workspace-root: /go/src/github.com/timakin/go-mod-sample
