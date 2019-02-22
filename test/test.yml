@@ -11,12 +11,13 @@ jobs:
   build:
     executor: default
     steps:
+      - checkout
       - run:
           name: Create Sample Go Project
           command: |
-            mv test/go.mod ./go.mod
-            mv test/go.sum ./go.sum
-            mv test/main.go ./main.go
+            mv test/go.mod go.mod
+            mv test/go.sum go.sum
+            mv test/main.go main.go
       - go-module/download:
           attach-workspace: true
           persist-to-workspace: true
