@@ -1,9 +1,16 @@
 version: "2.1"
 
+executors:
+  default:
+    working_directory: /go/src/github.com/timakin/go-mod-sample
+    docker:
+      - image: circleci/golang:1.11
+    environment:
+      - GO111MODULE: "on"
+
 jobs:
   build:
-    docker:
-      - image: circleci/golang:1.11.1-stretch
+    executor: default
     steps:
       - checkout
       - run:
