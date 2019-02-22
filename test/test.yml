@@ -1,17 +1,16 @@
 version: "2.1"
 
 executors:
-    golang:
-      docker:
-        - image: circleci/golang:1.11.1-stretch
+  golang:
+    docker:
+      - image: circleci/golang:1.11.1-stretch
 
 orbs:
   go-module: timakin/go-module@dev:alpha
 
 jobs:
   setup:
-    docker:
-        - image: circleci/golang:1.11.1-stretch
+    executor: golang
     steps:
       - run:
           name: Create Sample Go Project
@@ -25,7 +24,7 @@ jobs:
           - .
 
 workflows:
-  build:
+  test-go-module-download:
     jobs:
       - setup
       - go-module/download:
