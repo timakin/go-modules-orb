@@ -74,7 +74,6 @@ workflows:
 
       - orb-tools/test-in-builds:
           attach-workspace: true
-          orb-location: orb.yml
           orb-name: go-module
           test-steps:
             - orb-tools/local-test-build:
@@ -90,7 +89,7 @@ workflows:
           filters: *integration-master_filters
 
       - orb-tools/test-in-builds:
-          orb-location: orb.yml
+          attach-workspace: true
           orb-name: go-module
           test-steps:
             - orb-tools/local-test-build:
