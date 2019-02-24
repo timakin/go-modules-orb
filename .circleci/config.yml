@@ -2,25 +2,6 @@ version: 2.1
 
 orbs:
   orb-tools: circleci/orb-tools@8.3.0
-  go-module: timakin/go-module@dev:alpha
-
-executors:
-  tester:
-    docker:
-      - image: timakin/go-mod-sample
-    working_directory: /go/src/github.com/timakin/go-mod-sample
-
-jobs:
-  test-commands:
-    executor: tester
-    steps:
-      - checkout
-      - go-module/download:
-          attach-workspace: true
-          project_name: go-mod-sample
-          persist-to-workspace: true
-          vendoring: true
-          workspace-root: /go/src/github.com/timakin/go-mod-sample
 
 # yaml anchor filters
 integration-dev_filters: &integration-dev_filters
