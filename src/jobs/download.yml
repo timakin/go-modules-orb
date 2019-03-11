@@ -2,12 +2,17 @@ description: >
   Download Go packages referenced from your project.
   Using cache, CircleCI will run `go mod download` as efficient as it could.
 executor: <<parameters.executor>>
+working_directory: <<parameters.working-directory>>
 
 parameters:
   executor:
     description: executor to use for this job
     type: executor
     default: default
+  working-directory:
+    description: directory path for this job
+    type: string
+    default: "."
   checkout:
     description: >
       Boolean for whether or not to checkout as a first step. Default is true.
