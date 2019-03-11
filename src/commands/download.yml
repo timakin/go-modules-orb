@@ -6,6 +6,10 @@ parameters:
     description: "Built project name"
     type: string
     default: go-mod-cache
+  working-directory:
+    description: directory path for this job
+    type: string
+    default: "."
   checkout:
     description: >
       Boolean for whether or not to checkout as a first step. Default is true.
@@ -45,18 +49,22 @@ steps:
         - attach_workspace:
             at: << parameters.workspace-root >>
   - restore_cache:
+      working_directory: << parameters.working-directory >>
       name: Restore go modules cache
       key: << parameters.project_name >>-{{ .Branch }}-{{ checksum "go.sum" }}
   - run:
+      working_directory: << parameters.working-directory >>
       name: Downloading packages
       command: go mod download
   - save_cache:
+      working_directory: << parameters.working-directory >>
       name: Saving Cache
       key: << parameters.project_name >>-{{ .Branch }}-{{ checksum "go.sum" }}
       paths:
         - "/go/pkg/mod/cache"
   - when:
       condition: << parameters.vendoring >>
+      working_directory: << parameters.working-directory >>
       steps:
         - run:
             name: Vendoring
