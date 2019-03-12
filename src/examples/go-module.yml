@@ -17,6 +17,7 @@ usage:
       jobs:
         - go-module/download:
             executor: golang
+            working-directory: server
             checkout: true
             project_name: sample_project
             attach-workspace: true

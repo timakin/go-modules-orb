@@ -51,7 +51,7 @@ steps:
   - restore_cache:
       working_directory: << parameters.working-directory >>
       name: Restore go modules cache
-      key: << parameters.project_name >>-{{ .Branch }}-{{ checksum "go.sum" }}
+      key: << parameters.project_name >>-{{ .Branch }}-{{ checksum "<< parameters.working-directory >>/go.sum" }}
   - run:
       working_directory: << parameters.working-directory >>
       name: Downloading packages
@@ -59,7 +59,7 @@ steps:
   - save_cache:
       working_directory: << parameters.working-directory >>
       name: Saving Cache
-      key: << parameters.project_name >>-{{ .Branch }}-{{ checksum "go.sum" }}
+      key: << parameters.project_name >>-{{ .Branch }}-{{ checksum "<< parameters.working-directory >>/go.sum" }}
       paths:
         - "/go/pkg/mod/cache"
   - when:
