@@ -64,9 +64,9 @@ steps:
         - "/go/pkg/mod/cache"
   - when:
       condition: << parameters.vendoring >>
-      working_directory: << parameters.working-directory >>
       steps:
         - run:
+            working_directory: << parameters.working-directory >>
             name: Vendoring
             command: |
               go mod vendor

@@ -15,12 +15,14 @@ jobs:
       - run:
           name: Create Sample Go Project
           command: |
-            mv test/go.mod go.mod
-            mv test/go.sum go.sum
-            mv test/main.go main.go
+            mkdir server
+            mv test/go.mod server/go.mod
+            mv test/go.sum server/go.sum
+            mv test/main.go server/main.go
       - go-module/download:
           checkout: false
           attach-workspace: true
           persist-to-workspace: true
           vendoring: true
           workspace-root: .
+          working-directory: server
