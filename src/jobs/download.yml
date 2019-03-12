@@ -2,7 +2,6 @@ description: >
   Download Go packages referenced from your project.
   Using cache, CircleCI will run `go mod download` as efficient as it could.
 executor: <<parameters.executor>>
-working_directory: <<parameters.working-directory>>
 
 parameters:
   executor:
@@ -13,6 +12,10 @@ parameters:
     description: directory path for this job
     type: string
     default: "."
+  project_name:
+    description: "Built project name"
+    type: string
+    default: go-mod-cache
   checkout:
     description: >
       Boolean for whether or not to checkout as a first step. Default is true.
@@ -49,3 +52,5 @@ steps:
       attach-workspace: << parameters.attach-workspace >>
       persist-to-workspace: << parameters.persist-to-workspace >>
       workspace-root: << parameters.workspace-root >>
+      working-directory: <<parameters.working-directory>>
+
